@@ -3,6 +3,8 @@ const router = express.Router();
 const Donor = require('../models/Donor');
 const { validateDonor } = require('../middleware/validate');
 
+
+
 // GET donors by location (existing)
 router.get('/', async (req, res) => {
   try {
@@ -17,6 +19,9 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
 
 // POST register new donor (new)
 router.post('/', validateDonor, async (req, res) => {

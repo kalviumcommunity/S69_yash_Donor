@@ -3,6 +3,8 @@ const router = express.Router();
 const BloodRequest = require('../models/BloodRequest');
 const { validateRequest } = require('../middleware/validate');
 
+
+
 // GET all blood requests (existing)
 router.get('/', async (req, res) => {
   try {
@@ -28,6 +30,9 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
 
 // POST new blood request (new)
 router.post('/', validateRequest, async (req, res) => {
