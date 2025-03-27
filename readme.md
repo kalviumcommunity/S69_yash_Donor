@@ -131,4 +131,3 @@ Gamification – Reward donors with badges and recognition for repeat donations.
 ## Conclusion
 Donor Hive provides a real-time, transparent, and efficient solution for connecting blood donors with those in urgent need. The platform tackles donor visibility, communication inefficiencies, and donor retention, ensuring that life-saving donations are made available when and where they are needed most.
 
-// readme file was added
