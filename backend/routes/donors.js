@@ -3,9 +3,7 @@ const router = express.Router();
 const Donor = require('../models/Donor');
 const { validateDonor } = require('../middleware/validate');
 
-
-
-// GET donors by location (existing)
+// GET donors (filter by city/bloodType)
 router.get('/', async (req, res) => {
   try {
     const { city, bloodType } = req.query;
@@ -20,19 +18,9 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-
-
-// POST register new donor (new)
+// POST register new donor
 router.post('/', validateDonor, async (req, res) => {
-  const { 
-    name, 
-    bloodType, 
-    email, 
-    phone, 
-    city, 
-    lastDonationDate 
-  } = req.body;
+  const { name, bloodType, email, phone, city, lastDonationDate } = req.body;
 
   try {
     const newDonor = new Donor({
@@ -48,6 +36,32 @@ router.post('/', validateDonor, async (req, res) => {
 
     await newDonor.save();
     res.status(201).json(newDonor);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+
+
+// PUT update donor details
+router.put('/:id', async (req, res) => {
+  try {
+    const { isActive, lastDonationDate, city } = req.body;
+    const updateData = {};
+    if (isActive !== undefined) updateData.isActive = isActive;
+    if (lastDonationDate) updateData.lastDonationDate = lastDonationDate;
+    if (city) updateData.city = city;
+
+    const updatedDonor = await Donor.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedDonor) {
+      return res.status(404).json({ message: 'Donor not found' });
+    }
+    res.status(200).json(updatedDonor);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
