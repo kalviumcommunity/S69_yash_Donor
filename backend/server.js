@@ -1,21 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 
-// Connect DB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to DB"))
-  .catch(err => console.log(err));
+  .then(() => console.log("DB Connected"))
+  .catch((err) => console.log("DB error", err));
 
-// Routes
-const userRoutes = require('./routes/user');
-const taskRoutes = require('./routes/task');
-
-app.use('/api', userRoutes);
-app.use('/api', taskRoutes);
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
 
 app.listen(3000, () => console.log('Server running on port 3000'));
