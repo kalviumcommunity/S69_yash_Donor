@@ -1,6 +1,16 @@
-const app = require('./app');
-const PORT = process.env.PORT || 5001;
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-app.listen(PORT, () => {
-  console.log(`Server running on port: http://localhost:${PORT}`);
+const app = express();
+app.use(express.json());
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('DB connection error:', err));
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
 });
+const taskRoutes = require('./routes/task');
+app.use('/api', taskRoutes);
